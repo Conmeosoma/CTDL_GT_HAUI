@@ -59,7 +59,9 @@ void nhapSv(Student &Sv)
 int Add(List &L, Student X)
 {
   if (Full(L))
+  {
     return 0;
+  }
   L.count++;
   L.E[L.count] = X;
   return 1;
