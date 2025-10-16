@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <iomanip>
+#include <cstring>
 #define max 100
 using namespace std;
 struct Student
@@ -68,18 +69,20 @@ int Add(List &L, Student X)
 void nhapDS(List &L)
 {
   Initialize(L);
+  int n;
+  cout << "Nhap so luong sinh vien: ";
+  cin >> n;
   Student X;
-  int i = 1;
-  do
+  for (int i = 0; i < n; i++)
   {
-    cout << "Nhap sinh vien thu " << i << endl;
+    cout << "Nhap thong tin sinh vien thu " << i + 1 << endl;
     nhapSv(X);
     if (!Add(L, X))
     {
-      return;
+      cout << "Danh sach da day, khong the them sinh vien!\n";
+      break;
     }
-    i++;
-  } while (1);
+  }
 }
 // hien thi danh sach
 void hien_thi_Ds(List L)
@@ -116,7 +119,7 @@ void del_First(List &L)
   L.count--;
 }
 // them 1 sinh vien vao vi tri k trong danh sach
-void Insert(int k, List &L)
+int Insert(int k, List &L)
 {
   int i;
   Student X;
@@ -124,16 +127,18 @@ void Insert(int k, List &L)
   {
     cout << "Nhap sinh vien can bo sung ";
     nhapSv(X);
-    for (i = L.count; i >= k; i--)
+    for (i = L.count; i >= k - 1; i--)
     {
       L.E[i + 1] = L.E[i];
-      L.count = L.count + 1;
-      L.E[k - 1] = X;
-      return 1;
     }
+    L.E[k - 1] = X;
+    L.count++;
+    cout << "Da chen sinh vien vao vi tri " << k << "!\n";
+    return 1;
   }
   else
   {
+    cout << " Khong the chen: danh sach day hoac vi tri khong hop le";
     return 0;
   }
 }
@@ -164,13 +169,13 @@ int main()
   int k;
   do
   {
-    cout << "+++++MENU+++++";
+    cout << "+++++MENU+++++" << endl;
     cout << "1.Nhap moi n phan tu cho danh sach\n";
     cout << "2.Xoa sinh vien dau tien trong danh sach\n";
     cout << "3.Chen sinh vien vao vi tri bat ki\n";
     cout << "4.Sap xep theo chieu cua tang dan theo ten sinh vien\n";
     cout << "5. Hien thi danh sach\n";
-    cout << "6.Thoat";
+    cout << "6.Thoat\n";
     cout << "Nhap lua chon cua ban: ";
     cin >> chon;
     switch (chon)
