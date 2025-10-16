@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
-#define max 100;
+#include <iomanip>
+#define max 100
 using namespace std;
 struct Student
 {
@@ -51,7 +52,18 @@ void nhapSv(Student &Sv)
   cin >> Sv.year;
   cout << "Nhap diem trung binh cua sinh vien: ";
   cin >> Sv.Score;
+  cin.ignore();
 }
+// them sinh vien vao cuoi danh sach
+int Add(List &L, Student X)
+{
+  if (Full(L))
+    return 0;
+  L.count++;
+  L.E[L.count] = X;
+  return 1;
+}
+
 // nhap danh sach sinh vien
 void nhapDS(List &L)
 {
@@ -67,7 +79,7 @@ void nhapDS(List &L)
       return;
     }
     i++;
-  } while (1)
+  } while (1);
 }
 // hien thi danh sach
 void hien_thi_Ds(List L)
@@ -112,5 +124,88 @@ void Insert(int k, List &L)
   {
     cout << "Nhap sinh vien can bo sung ";
     nhapSv(X);
+    for (i = L.count; i >= k; i--)
+    {
+      L.E[i + 1] = L.E[i];
+      L.count = L.count + 1;
+      L.E[k - 1] = X;
+      return 1;
+    }
   }
+  else
+  {
+    return 0;
+  }
+}
+void SelectionSort_ByName(List &L)
+{
+  for (int i = 0; i < L.count; i++)
+  {
+    int minIndex = i;
+    for (int j = i + 1; j <= L.count; j++)
+    {
+      if (strcmp(L.E[j].lastName, L.E[minIndex].lastName) < 0)
+      {
+        minIndex = j;
+      }
+    }
+    if (minIndex != i)
+    {
+      Student temp = L.E[i];
+      L.E[i] = L.E[minIndex];
+      L.E[minIndex] = temp;
+    }
+  }
+}
+int main()
+{
+  List L;
+  int chon;
+  int k;
+  do
+  {
+    cout << "+++++MENU+++++";
+    cout << "1.Nhap moi n phan tu cho danh sach\n";
+    cout << "2.Xoa sinh vien dau tien trong danh sach\n";
+    cout << "3.Chen sinh vien vao vi tri bat ki\n";
+    cout << "4.Sap xep theo chieu cua tang dan theo ten sinh vien\n";
+    cout << "5. Hien thi danh sach\n";
+    cout << "6.Thoat";
+    cout << "Nhap lua chon cua ban: ";
+    cin >> chon;
+    switch (chon)
+    {
+    case 1:
+      nhapDS(L);
+
+      break;
+    case 2:
+      del_First(L);
+
+      break;
+    case 3:
+      cout << "Nhap vi tri bo sung: ";
+      cin >> k;
+      Insert(k, L);
+
+      break;
+    case 4:
+      SelectionSort_ByName(L);
+
+      break;
+    case 5:
+      hien_thi_Ds(L);
+
+      break;
+    case 6:
+      cout << "Thoat chuong trinh!";
+
+      break;
+
+    default:
+      cout << "Lua chon khong hop le";
+      break;
+    }
+  } while (chon != 6);
+  return 0;
 }
