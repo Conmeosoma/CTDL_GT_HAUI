@@ -28,8 +28,7 @@ int main()
     cin >> n;
     if (!check(n))
     {
-        s
-                cout
+        cout
             << n << " K la so nguyen to";
     }
     else

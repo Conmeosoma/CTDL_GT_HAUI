@@ -124,7 +124,7 @@ void Tuoi(List L)
   bool found = false;
   int currentYear = 2025;
 
-  cout << "\nDanh sach nhan vien tren 50 tuoi:\n";
+  cout << "Danh sach nhan vien tren 50 tuoi:\n";
 
   for (int i = 0; i <= L.count; i++)
   {
