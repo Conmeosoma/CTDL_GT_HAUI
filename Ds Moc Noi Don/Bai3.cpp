@@ -12,7 +12,7 @@ struct SinhVien
   float diemTK;
 };
 
-// ===================== Node cua danh sach lien ket =====================
+// ===================== Node =====================
 struct Node
 {
   SinhVien data;
@@ -29,7 +29,7 @@ struct LinkedList
 {
   Node *head = nullptr;
 
-  // Them cuoi danh sach
+  // Them cuoi
   void addLast(SinhVien sv)
   {
     Node *p = new Node(sv);
@@ -44,7 +44,7 @@ struct LinkedList
     temp->next = p;
   }
 
-  // Hien thi danh sach
+  // Hien thi
   void display()
   {
     cout << "\n===== DANH SACH SINH VIEN =====\n";
@@ -60,13 +60,12 @@ struct LinkedList
     }
   }
 
-  // Tim sinh vien co ten X
+  // Tim theo ten
   void findByName(string name)
   {
     cout << "\n===== TIM SINH VIEN TEN " << name << " =====\n";
     Node *temp = head;
     bool found = false;
-
     while (temp != nullptr)
     {
       if (temp->data.ten == name)
@@ -80,25 +79,19 @@ struct LinkedList
       }
       temp = temp->next;
     }
-
     if (!found)
       cout << "Khong tim thay sinh vien!\n";
   }
 
-  // Xoa sinh vien theo ten
+  // Xoa theo ten
   void deleteByName(string name)
   {
-    if (head == nullptr)
-      return;
-
-    // Neu node dau tien can xoa
     while (head != nullptr && head->data.ten == name)
     {
       Node *del = head;
       head = head->next;
       delete del;
     }
-
     Node *temp = head;
     while (temp != nullptr && temp->next != nullptr)
     {
@@ -109,18 +102,15 @@ struct LinkedList
         delete del;
       }
       else
-      {
         temp = temp->next;
-      }
     }
   }
 
-  // Sap xep theo ten tang dan (Bubble sort)
-  void sortByName()
+  // ===================== 1. Bubble Sort =====================
+  void sortByName_Bubble()
   {
     if (head == nullptr)
       return;
-
     for (Node *i = head; i->next != nullptr; i = i->next)
     {
       for (Node *j = i->next; j != nullptr; j = j->next)
@@ -133,6 +123,60 @@ struct LinkedList
         }
       }
     }
+  }
+
+  // ===================== 2. Selection Sort =====================
+  void sortByName_Selection()
+  {
+    if (head == nullptr)
+      return;
+    for (Node *i = head; i->next != nullptr; i = i->next)
+    {
+      Node *minNode = i;
+      for (Node *j = i->next; j != nullptr; j = j->next)
+      {
+        if (j->data.ten < minNode->data.ten)
+        {
+          minNode = j;
+        }
+      }
+      SinhVien tmp = i->data;
+      i->data = minNode->data;
+      minNode->data = tmp;
+    }
+  }
+
+  // ===================== 3. Insertion Sort =====================
+  void sortByName_Insertion()
+  {
+    if (head == nullptr || head->next == nullptr)
+      return;
+
+    Node *sorted = nullptr;
+
+    while (head != nullptr)
+    {
+      Node *current = head;
+      head = head->next;
+
+      if (sorted == nullptr || current->data.ten < sorted->data.ten)
+      {
+        current->next = sorted;
+        sorted = current;
+      }
+      else
+      {
+        Node *t = sorted;
+        while (t->next != nullptr && t->next->data.ten < current->data.ten)
+        {
+          t = t->next;
+        }
+        current->next = t->next;
+        t->next = current;
+      }
+    }
+
+    head = sorted;
   }
 };
 
@@ -150,24 +194,32 @@ void taoDanhSach(LinkedList &list)
 int main()
 {
   LinkedList list;
-
-  // 1. Tao danh sach mac dinh
   taoDanhSach(list);
 
   cout << "\n=== DANH SACH BAN DAU ===";
   list.display();
 
-  // 2. Tim sinh vien ten Ha
+  // Tim sinh vien Ha
   list.findByName("Ha");
 
-  // 3. Xoa sinh vien ten Lan
+  // Xoa Lan
   list.deleteByName("Lan");
-  cout << "\n=== DANH SACH SAU KHI XOA TEN LAN ===";
+  cout << "\n=== SAU KHI XOA LAN ===";
   list.display();
 
-  // 4. Sap xep danh sach theo ten tang dan
-  list.sortByName();
-  cout << "\n=== DANH SACH SAU KHI SAP XEP TEN TANG DAN ===";
+  // 1. Bubble Sort
+  list.sortByName_Bubble();
+  cout << "\n=== SAU KHI SAP XEP NOI BOT ===";
+  list.display();
+
+  // 2. Selection Sort
+  list.sortByName_Selection();
+  cout << "\n=== SAU KHI SAP XEP LUA CHON ===";
+  list.display();
+
+  // 3. Insertion Sort
+  list.sortByName_Insertion();
+  cout << "\n=== SAU KHI SAP XEP CHEN ===";
   list.display();
 
   return 0;
