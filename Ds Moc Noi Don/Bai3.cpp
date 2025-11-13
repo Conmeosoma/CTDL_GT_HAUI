@@ -221,6 +221,7 @@ int main()
   list.sortByName_Insertion();
   cout << "\n=== SAU KHI SAP XEP CHEN ===";
   list.display();
+  cout << "";
 
   return 0;
 }
