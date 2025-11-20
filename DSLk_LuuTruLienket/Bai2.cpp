@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cstring>
+#include <string>
 #define max 100
 using namespace std;
 
@@ -145,16 +146,70 @@ void Tuoi(List L)
   if (!found)
     cout << "Khong co nhan vien nao tren 50 tuoi.\n";
 }
+void findByName(List L)
+{
+  bool found = false;
+  cout << "\nNhap ten ma ban search: ";
+  string Name;
+  cin >> Name;
+
+  for (int i = 0; i <= L.count; i++)
+  {
+    if (strcmp(L.E[i].lastName, Name.c_str()) == 0)
+    {
+      found = true;
+      cout << setw(10) << L.E[i].Id
+           << setw(20) << L.E[i].firstName
+           << setw(15) << L.E[i].lastName
+           << setw(10) << L.E[i].gender
+           << setw(10) << L.E[i].year
+           << setw(15) << L.E[i].heSoLuong
+           << setw(15) << L.E[i].salary << endl;
+    }
+  }
+  if (!found)
+  {
+    cout << "Khong thay ai ten " << Name << " trong danh sach!\n";
+  }
+}
+void insert(int k, List &L)
+{
+  int i;
+  Employee X;
+  if (!Full(L) && k <= L.count + 1 && k >= 1)
+  {
+    cout << "Nhap phan vien can bo sung: ";
+    nhapNhanVien(X);
+    for (int i = L.count; i >= k - 1; i--)
+    {
+      L.E[i + 1] = L.E[i];
+    }
+    L.E[k - 1] = X;
+    L.count++;
+    cout << "Da chen sinh vien vao vi tri " << k << "!\n";
+    return 1;
+  }
+  else
+  {
+    cout << "Khong then chen: ds day hoac vi tri khong hop le!";
+    return 0;
+  }
+}
 
 int main()
 {
   List L;
+  int k;
   nhapDS(L);
   cout << "\n=== Danh sach nhan vien vua nhap ===\n";
   hien_thi_Ds(L);
 
   cout << "\n=== Nhan vien tren 50 tuoi ===\n";
   Tuoi(L);
+  cout << "Tim ten trong danh sach!";
+  findByName(L);
+  cout << "Nhap vi tri can chen!";
+  insert(L,k);
 
   return 0;
 }
